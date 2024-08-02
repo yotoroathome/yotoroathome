@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Feathers to GG Tokens Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label, input, p {
+            font-size: 1.2em;
+        }
+    </style>
+    <script>
+        async function fetchETHPrice() {
+            try {
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+                const data = await response.json();
+                const ethPrice = data.ethereum.usd;
+                document.getElementById("ethPrice").innerText = "Current ETH Price: $" + ethPrice.toFixed(2) + " USD";
+            } catch (error) {
+                console.error('Error fetching ETH price:', error);
+                document.getElementById("ethPrice").innerText = "Error fetching ETH price.";
+            }
+        }
+
+        function calculateETH() {
+            var feathers = document.getElementById("feathers").value;
+            var ethPerFeather = 0.0000666;
+            var result = feathers * ethPerFeather;
+            document.getElementById("result").innerText = "Required Arbitrum ETH: " + result.toFixed(6);
+        }
+
+        window.onload = fetchETHPrice;
+    </script>
+</head>
+<body>
+    <h1>Phoenix Feathers to GG Tokens Converter</h1>
+    <p id="ethPrice">Fetching ETH price...</p>
+    <label for="feathers">Enter amount of Phoenix feathers:</label>
+    <input type="number" id="feathers" min="0" step="1" oninput="calculateETH()">
+    <p id="result">Required Arbitrum ETH: 0</p>
+    <p>Please remember to add a little additional ETH for transaction fees.</p>
+    <p>Note: You will need Tabi testnet tokens to claim the GG tokens after converting.</p>
+    <p><strong>Disclaimer:</strong> This is for educational purposes only and I take no responsibility. DYOR.</p>
+    <p>Phoenix feather rate has been taken from Tabi blog: <a href="https://blog.tabi.lol/#/article/21" target="_blank">https://blog.tabi.lol/#/article/21</a></p>
+    <p>1 Phoenix Feather = 0.0000666 ETH</p>
+    <p>Contact me: discord: yotoroathome</p>
+</body>
+</html>
